@@ -83,11 +83,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "ABSENSI GPS — Absensi Karyawan Berbasis GPS & Selfie" },
       { name: "description", content: "Sistem absensi karyawan modern berbasis GPS geofencing dan foto selfie." },
       { name: "author", content: "ABSENSI GPS" },
-      { property: "og:title", content: "ABSENSI GPS" },
-      { property: "og:description", content: "Sistem absensi karyawan berbasis GPS & selfie." },
+      { property: "og:title", content: "ABSENSI GPS — Absensi Karyawan Berbasis GPS & Selfie" },
+      { property: "og:description", content: "Sistem absensi karyawan modern berbasis GPS geofencing dan foto selfie." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "ABSENSI GPS — Absensi Karyawan Berbasis GPS & Selfie" },
+      { name: "twitter:description", content: "Sistem absensi karyawan modern berbasis GPS geofencing dan foto selfie." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/cb760e9c-cbd7-4ad0-b566-3b29fe5fd500/id-preview-7919e902--46b81b55-4261-45f8-b157-15707de01651.lovable.app-1780682059495.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/cb760e9c-cbd7-4ad0-b566-3b29fe5fd500/id-preview-7919e902--46b81b55-4261-45f8-b157-15707de01651.lovable.app-1780682059495.png" },
     ],
     links: [
       {
