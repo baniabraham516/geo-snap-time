@@ -132,6 +132,15 @@ export function AppLayout({ children }: { children: ReactNode }) {
                 {initials}
               </AvatarFallback>
             </Avatar>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleLogout}
+              aria-label="Logout"
+              className="text-destructive md:hidden"
+            >
+              <LogOut className="h-5 w-5" />
+            </Button>
           </div>
         </header>
 
