@@ -93,7 +93,7 @@ async function seed() {
       )
       .select("id, user_id")
       .single();
-    if (emp) empRows.push(emp);
+    if (emp && emp.user_id) empRows.push({ id: emp.id, user_id: emp.user_id });
     created.push(e.email);
   }
 
