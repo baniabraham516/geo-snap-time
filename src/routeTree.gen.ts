@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminMonitoringRouteImport } from './routes/admin.monitoring'
 import { Route as AdminLokasiRouteImport } from './routes/admin.lokasi'
+import { Route as AdminLaporanRouteImport } from './routes/admin.laporan'
 import { Route as AdminKaryawanRouteImport } from './routes/admin.karyawan'
 import { Route as AdminIzinRouteImport } from './routes/admin.izin'
 import { Route as ApiPublicSeedRouteImport } from './routes/api/public/seed'
@@ -79,6 +80,11 @@ const AdminLokasiRoute = AdminLokasiRouteImport.update({
   path: '/admin/lokasi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminLaporanRoute = AdminLaporanRouteImport.update({
+  id: '/admin/laporan',
+  path: '/admin/laporan',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminKaryawanRoute = AdminKaryawanRouteImport.update({
   id: '/admin/karyawan',
   path: '/admin/karyawan',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/riwayat': typeof RiwayatRoute
   '/admin/izin': typeof AdminIzinRoute
   '/admin/karyawan': typeof AdminKaryawanRoute
+  '/admin/laporan': typeof AdminLaporanRoute
   '/admin/lokasi': typeof AdminLokasiRoute
   '/admin/monitoring': typeof AdminMonitoringRoute
   '/admin/': typeof AdminIndexRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/riwayat': typeof RiwayatRoute
   '/admin/izin': typeof AdminIzinRoute
   '/admin/karyawan': typeof AdminKaryawanRoute
+  '/admin/laporan': typeof AdminLaporanRoute
   '/admin/lokasi': typeof AdminLokasiRoute
   '/admin/monitoring': typeof AdminMonitoringRoute
   '/admin': typeof AdminIndexRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/riwayat': typeof RiwayatRoute
   '/admin/izin': typeof AdminIzinRoute
   '/admin/karyawan': typeof AdminKaryawanRoute
+  '/admin/laporan': typeof AdminLaporanRoute
   '/admin/lokasi': typeof AdminLokasiRoute
   '/admin/monitoring': typeof AdminMonitoringRoute
   '/admin/': typeof AdminIndexRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/riwayat'
     | '/admin/izin'
     | '/admin/karyawan'
+    | '/admin/laporan'
     | '/admin/lokasi'
     | '/admin/monitoring'
     | '/admin/'
@@ -173,6 +183,7 @@ export interface FileRouteTypes {
     | '/riwayat'
     | '/admin/izin'
     | '/admin/karyawan'
+    | '/admin/laporan'
     | '/admin/lokasi'
     | '/admin/monitoring'
     | '/admin'
@@ -189,6 +200,7 @@ export interface FileRouteTypes {
     | '/riwayat'
     | '/admin/izin'
     | '/admin/karyawan'
+    | '/admin/laporan'
     | '/admin/lokasi'
     | '/admin/monitoring'
     | '/admin/'
@@ -206,6 +218,7 @@ export interface RootRouteChildren {
   RiwayatRoute: typeof RiwayatRoute
   AdminIzinRoute: typeof AdminIzinRoute
   AdminKaryawanRoute: typeof AdminKaryawanRoute
+  AdminLaporanRoute: typeof AdminLaporanRoute
   AdminLokasiRoute: typeof AdminLokasiRoute
   AdminMonitoringRoute: typeof AdminMonitoringRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -291,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLokasiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/laporan': {
+      id: '/admin/laporan'
+      path: '/admin/laporan'
+      fullPath: '/admin/laporan'
+      preLoaderRoute: typeof AdminLaporanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/karyawan': {
       id: '/admin/karyawan'
       path: '/admin/karyawan'
@@ -326,6 +346,7 @@ const rootRouteChildren: RootRouteChildren = {
   RiwayatRoute: RiwayatRoute,
   AdminIzinRoute: AdminIzinRoute,
   AdminKaryawanRoute: AdminKaryawanRoute,
+  AdminLaporanRoute: AdminLaporanRoute,
   AdminLokasiRoute: AdminLokasiRoute,
   AdminMonitoringRoute: AdminMonitoringRoute,
   AdminIndexRoute: AdminIndexRoute,
