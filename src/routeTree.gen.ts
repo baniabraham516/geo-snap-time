@@ -9,38 +9,286 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RiwayatRouteImport } from './routes/riwayat'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ProfilRouteImport } from './routes/profil'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as IzinRouteImport } from './routes/izin'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AbsenRouteImport } from './routes/absen'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminPengaturanRouteImport } from './routes/admin.pengaturan'
+import { Route as AdminMonitoringRouteImport } from './routes/admin.monitoring'
+import { Route as AdminLokasiRouteImport } from './routes/admin.lokasi'
+import { Route as AdminLaporanRouteImport } from './routes/admin.laporan'
+import { Route as AdminKaryawanRouteImport } from './routes/admin.karyawan'
+import { Route as AdminIzinRouteImport } from './routes/admin.izin'
+import { Route as ApiPublicSeedRouteImport } from './routes/api/public/seed'
 
+const RiwayatRoute = RiwayatRouteImport.update({
+  id: '/riwayat',
+  path: '/riwayat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfilRoute = ProfilRouteImport.update({
+  id: '/profil',
+  path: '/profil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IzinRoute = IzinRouteImport.update({
+  id: '/izin',
+  path: '/izin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AbsenRoute = AbsenRouteImport.update({
+  id: '/absen',
+  path: '/absen',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminPengaturanRoute = AdminPengaturanRouteImport.update({
+  id: '/admin/pengaturan',
+  path: '/admin/pengaturan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminMonitoringRoute = AdminMonitoringRouteImport.update({
+  id: '/admin/monitoring',
+  path: '/admin/monitoring',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLokasiRoute = AdminLokasiRouteImport.update({
+  id: '/admin/lokasi',
+  path: '/admin/lokasi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLaporanRoute = AdminLaporanRouteImport.update({
+  id: '/admin/laporan',
+  path: '/admin/laporan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminKaryawanRoute = AdminKaryawanRouteImport.update({
+  id: '/admin/karyawan',
+  path: '/admin/karyawan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIzinRoute = AdminIzinRouteImport.update({
+  id: '/admin/izin',
+  path: '/admin/izin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicSeedRoute = ApiPublicSeedRouteImport.update({
+  id: '/api/public/seed',
+  path: '/api/public/seed',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/absen': typeof AbsenRoute
+  '/dashboard': typeof DashboardRoute
+  '/izin': typeof IzinRoute
+  '/login': typeof LoginRoute
+  '/profil': typeof ProfilRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/riwayat': typeof RiwayatRoute
+  '/admin/izin': typeof AdminIzinRoute
+  '/admin/karyawan': typeof AdminKaryawanRoute
+  '/admin/laporan': typeof AdminLaporanRoute
+  '/admin/lokasi': typeof AdminLokasiRoute
+  '/admin/monitoring': typeof AdminMonitoringRoute
+  '/admin/pengaturan': typeof AdminPengaturanRoute
+  '/admin/': typeof AdminIndexRoute
+  '/api/public/seed': typeof ApiPublicSeedRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/absen': typeof AbsenRoute
+  '/dashboard': typeof DashboardRoute
+  '/izin': typeof IzinRoute
+  '/login': typeof LoginRoute
+  '/profil': typeof ProfilRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/riwayat': typeof RiwayatRoute
+  '/admin/izin': typeof AdminIzinRoute
+  '/admin/karyawan': typeof AdminKaryawanRoute
+  '/admin/laporan': typeof AdminLaporanRoute
+  '/admin/lokasi': typeof AdminLokasiRoute
+  '/admin/monitoring': typeof AdminMonitoringRoute
+  '/admin/pengaturan': typeof AdminPengaturanRoute
+  '/admin': typeof AdminIndexRoute
+  '/api/public/seed': typeof ApiPublicSeedRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/absen': typeof AbsenRoute
+  '/dashboard': typeof DashboardRoute
+  '/izin': typeof IzinRoute
+  '/login': typeof LoginRoute
+  '/profil': typeof ProfilRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/riwayat': typeof RiwayatRoute
+  '/admin/izin': typeof AdminIzinRoute
+  '/admin/karyawan': typeof AdminKaryawanRoute
+  '/admin/laporan': typeof AdminLaporanRoute
+  '/admin/lokasi': typeof AdminLokasiRoute
+  '/admin/monitoring': typeof AdminMonitoringRoute
+  '/admin/pengaturan': typeof AdminPengaturanRoute
+  '/admin/': typeof AdminIndexRoute
+  '/api/public/seed': typeof ApiPublicSeedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/absen'
+    | '/dashboard'
+    | '/izin'
+    | '/login'
+    | '/profil'
+    | '/reset-password'
+    | '/riwayat'
+    | '/admin/izin'
+    | '/admin/karyawan'
+    | '/admin/laporan'
+    | '/admin/lokasi'
+    | '/admin/monitoring'
+    | '/admin/pengaturan'
+    | '/admin/'
+    | '/api/public/seed'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/absen'
+    | '/dashboard'
+    | '/izin'
+    | '/login'
+    | '/profil'
+    | '/reset-password'
+    | '/riwayat'
+    | '/admin/izin'
+    | '/admin/karyawan'
+    | '/admin/laporan'
+    | '/admin/lokasi'
+    | '/admin/monitoring'
+    | '/admin/pengaturan'
+    | '/admin'
+    | '/api/public/seed'
+  id:
+    | '__root__'
+    | '/'
+    | '/absen'
+    | '/dashboard'
+    | '/izin'
+    | '/login'
+    | '/profil'
+    | '/reset-password'
+    | '/riwayat'
+    | '/admin/izin'
+    | '/admin/karyawan'
+    | '/admin/laporan'
+    | '/admin/lokasi'
+    | '/admin/monitoring'
+    | '/admin/pengaturan'
+    | '/admin/'
+    | '/api/public/seed'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AbsenRoute: typeof AbsenRoute
+  DashboardRoute: typeof DashboardRoute
+  IzinRoute: typeof IzinRoute
+  LoginRoute: typeof LoginRoute
+  ProfilRoute: typeof ProfilRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  RiwayatRoute: typeof RiwayatRoute
+  AdminIzinRoute: typeof AdminIzinRoute
+  AdminKaryawanRoute: typeof AdminKaryawanRoute
+  AdminLaporanRoute: typeof AdminLaporanRoute
+  AdminLokasiRoute: typeof AdminLokasiRoute
+  AdminMonitoringRoute: typeof AdminMonitoringRoute
+  AdminPengaturanRoute: typeof AdminPengaturanRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  ApiPublicSeedRoute: typeof ApiPublicSeedRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/riwayat': {
+      id: '/riwayat'
+      path: '/riwayat'
+      fullPath: '/riwayat'
+      preLoaderRoute: typeof RiwayatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profil': {
+      id: '/profil'
+      path: '/profil'
+      fullPath: '/profil'
+      preLoaderRoute: typeof ProfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/izin': {
+      id: '/izin'
+      path: '/izin'
+      fullPath: '/izin'
+      preLoaderRoute: typeof IzinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/absen': {
+      id: '/absen'
+      path: '/absen'
+      fullPath: '/absen'
+      preLoaderRoute: typeof AbsenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +296,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/pengaturan': {
+      id: '/admin/pengaturan'
+      path: '/admin/pengaturan'
+      fullPath: '/admin/pengaturan'
+      preLoaderRoute: typeof AdminPengaturanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/monitoring': {
+      id: '/admin/monitoring'
+      path: '/admin/monitoring'
+      fullPath: '/admin/monitoring'
+      preLoaderRoute: typeof AdminMonitoringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/lokasi': {
+      id: '/admin/lokasi'
+      path: '/admin/lokasi'
+      fullPath: '/admin/lokasi'
+      preLoaderRoute: typeof AdminLokasiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/laporan': {
+      id: '/admin/laporan'
+      path: '/admin/laporan'
+      fullPath: '/admin/laporan'
+      preLoaderRoute: typeof AdminLaporanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/karyawan': {
+      id: '/admin/karyawan'
+      path: '/admin/karyawan'
+      fullPath: '/admin/karyawan'
+      preLoaderRoute: typeof AdminKaryawanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/izin': {
+      id: '/admin/izin'
+      path: '/admin/izin'
+      fullPath: '/admin/izin'
+      preLoaderRoute: typeof AdminIzinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/seed': {
+      id: '/api/public/seed'
+      path: '/api/public/seed'
+      fullPath: '/api/public/seed'
+      preLoaderRoute: typeof ApiPublicSeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AbsenRoute: AbsenRoute,
+  DashboardRoute: DashboardRoute,
+  IzinRoute: IzinRoute,
+  LoginRoute: LoginRoute,
+  ProfilRoute: ProfilRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  RiwayatRoute: RiwayatRoute,
+  AdminIzinRoute: AdminIzinRoute,
+  AdminKaryawanRoute: AdminKaryawanRoute,
+  AdminLaporanRoute: AdminLaporanRoute,
+  AdminLokasiRoute: AdminLokasiRoute,
+  AdminMonitoringRoute: AdminMonitoringRoute,
+  AdminPengaturanRoute: AdminPengaturanRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  ApiPublicSeedRoute: ApiPublicSeedRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
