@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RiwayatRouteImport } from './routes/riwayat'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as IzinRouteImport } from './routes/izin'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AbsenRouteImport } from './routes/absen'
 import { Route as IndexRouteImport } from './routes/index'
@@ -30,6 +31,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IzinRoute = IzinRouteImport.update({
+  id: '/izin',
+  path: '/izin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/absen': typeof AbsenRoute
   '/dashboard': typeof DashboardRoute
+  '/izin': typeof IzinRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/riwayat': typeof RiwayatRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/absen': typeof AbsenRoute
   '/dashboard': typeof DashboardRoute
+  '/izin': typeof IzinRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/riwayat': typeof RiwayatRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/absen': typeof AbsenRoute
   '/dashboard': typeof DashboardRoute
+  '/izin': typeof IzinRoute
   '/login': typeof LoginRoute
   '/reset-password': typeof ResetPasswordRoute
   '/riwayat': typeof RiwayatRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/absen'
     | '/dashboard'
+    | '/izin'
     | '/login'
     | '/reset-password'
     | '/riwayat'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/absen'
     | '/dashboard'
+    | '/izin'
     | '/login'
     | '/reset-password'
     | '/riwayat'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/absen'
     | '/dashboard'
+    | '/izin'
     | '/login'
     | '/reset-password'
     | '/riwayat'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AbsenRoute: typeof AbsenRoute
   DashboardRoute: typeof DashboardRoute
+  IzinRoute: typeof IzinRoute
   LoginRoute: typeof LoginRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   RiwayatRoute: typeof RiwayatRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/izin': {
+      id: '/izin'
+      path: '/izin'
+      fullPath: '/izin'
+      preLoaderRoute: typeof IzinRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AbsenRoute: AbsenRoute,
   DashboardRoute: DashboardRoute,
+  IzinRoute: IzinRoute,
   LoginRoute: LoginRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   RiwayatRoute: RiwayatRoute,
