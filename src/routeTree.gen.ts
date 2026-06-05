@@ -18,6 +18,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AbsenRouteImport } from './routes/absen'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminMonitoringRouteImport } from './routes/admin.monitoring'
 import { Route as AdminKaryawanRouteImport } from './routes/admin.karyawan'
 import { Route as ApiPublicSeedRouteImport } from './routes/api/public/seed'
 
@@ -66,6 +67,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminMonitoringRoute = AdminMonitoringRouteImport.update({
+  id: '/admin/monitoring',
+  path: '/admin/monitoring',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminKaryawanRoute = AdminKaryawanRouteImport.update({
   id: '/admin/karyawan',
   path: '/admin/karyawan',
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/riwayat': typeof RiwayatRoute
   '/admin/karyawan': typeof AdminKaryawanRoute
+  '/admin/monitoring': typeof AdminMonitoringRoute
   '/admin/': typeof AdminIndexRoute
   '/api/public/seed': typeof ApiPublicSeedRoute
 }
@@ -100,6 +107,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/riwayat': typeof RiwayatRoute
   '/admin/karyawan': typeof AdminKaryawanRoute
+  '/admin/monitoring': typeof AdminMonitoringRoute
   '/admin': typeof AdminIndexRoute
   '/api/public/seed': typeof ApiPublicSeedRoute
 }
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/riwayat': typeof RiwayatRoute
   '/admin/karyawan': typeof AdminKaryawanRoute
+  '/admin/monitoring': typeof AdminMonitoringRoute
   '/admin/': typeof AdminIndexRoute
   '/api/public/seed': typeof ApiPublicSeedRoute
 }
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/riwayat'
     | '/admin/karyawan'
+    | '/admin/monitoring'
     | '/admin/'
     | '/api/public/seed'
   fileRoutesByTo: FileRoutesByTo
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/riwayat'
     | '/admin/karyawan'
+    | '/admin/monitoring'
     | '/admin'
     | '/api/public/seed'
   id:
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/riwayat'
     | '/admin/karyawan'
+    | '/admin/monitoring'
     | '/admin/'
     | '/api/public/seed'
   fileRoutesById: FileRoutesById
@@ -169,6 +181,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   RiwayatRoute: typeof RiwayatRoute
   AdminKaryawanRoute: typeof AdminKaryawanRoute
+  AdminMonitoringRoute: typeof AdminMonitoringRoute
   AdminIndexRoute: typeof AdminIndexRoute
   ApiPublicSeedRoute: typeof ApiPublicSeedRoute
 }
@@ -238,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/monitoring': {
+      id: '/admin/monitoring'
+      path: '/admin/monitoring'
+      fullPath: '/admin/monitoring'
+      preLoaderRoute: typeof AdminMonitoringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/karyawan': {
       id: '/admin/karyawan'
       path: '/admin/karyawan'
@@ -265,6 +285,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   RiwayatRoute: RiwayatRoute,
   AdminKaryawanRoute: AdminKaryawanRoute,
+  AdminMonitoringRoute: AdminMonitoringRoute,
   AdminIndexRoute: AdminIndexRoute,
   ApiPublicSeedRoute: ApiPublicSeedRoute,
 }
