@@ -113,9 +113,12 @@ function LaporanContent() {
         title="Laporan Absensi"
         description="Ekspor laporan kehadiran karyawan."
         action={
-          <div className="flex gap-2 print:hidden">
-            <Button variant="outline" onClick={exportCSV}>
+          <div className="flex flex-wrap gap-2 print:hidden">
+            <Button variant="outline" onClick={exportExcel}>
               <FileSpreadsheet className="mr-2 h-4 w-4" /> Excel
+            </Button>
+            <Button variant="outline" onClick={exportCSV}>
+              <Sheet className="mr-2 h-4 w-4" /> CSV
             </Button>
             <Button variant="outline" onClick={exportPDF}>
               <FileText className="mr-2 h-4 w-4" /> PDF
