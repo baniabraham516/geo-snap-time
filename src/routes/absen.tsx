@@ -14,7 +14,7 @@ import { fetchOffice, fetchTodayAttendance } from "@/lib/queries";
 import { distanceMeters, getCurrentPosition, reverseGeocode, getDeviceInfo } from "@/lib/geo";
 import { uploadAndSign, dataURLtoBlob } from "@/lib/storage";
 import { supabase } from "@/integrations/supabase/client";
-import { todayISO, formatTime, lateThreshold } from "@/lib/format";
+import { todayISO, formatTime } from "@/lib/format";
 
 export const Route = createFileRoute("/absen")({
   head: () => ({ meta: [{ title: "Absensi — ABSENSI GPS" }] }),
