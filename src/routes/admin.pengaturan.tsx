@@ -27,7 +27,12 @@ export const Route = createFileRoute("/admin/pengaturan")({
 
 async function fetchCompany() {
   const { data } = await supabase.from("settings").select("value").eq("key", "company").maybeSingle();
-  return (data?.value as { name?: string; work_start?: string }) ?? {};
+  return (data?.value as {
+    name?: string;
+    work_start?: string;
+    work_end?: string;
+    late_tolerance?: number;
+  }) ?? {};
 }
 
 function PengaturanContent() {
