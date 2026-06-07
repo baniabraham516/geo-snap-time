@@ -43,20 +43,30 @@ function PengaturanContent() {
   const { data: company } = useQuery({ queryKey: ["company-settings"], queryFn: fetchCompany });
   const [name, setName] = useState("");
   const [workStart, setWorkStart] = useState("08:00");
+  const [workEnd, setWorkEnd] = useState("17:00");
+  const [lateTolerance, setLateTolerance] = useState(0);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (company) {
       setName(company.name ?? "");
       setWorkStart(company.work_start ?? "08:00");
+      setWorkEnd(company.work_end ?? "17:00");
+      setLateTolerance(company.late_tolerance ?? 0);
     }
   }, [company]);
 
   async function save() {
     setSaving(true);
-    const { error } = await supabase
-      .from("settings")
-      .upsert({ key: "company", value: { name, work_start: workStart } });
+    const { error } = await supabase.from("settings").upsert({
+      key: "company",
+      value: {
+        name,
+        work_start: workStart,
+        work_end: workEnd,
+        late_tolerance: lateTolerance,
+      },
+    });
     setSaving(false);
     if (error) toast.error(error.message);
     else {
