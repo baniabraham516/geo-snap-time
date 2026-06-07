@@ -1,7 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { Users, UserCheck, Clock, CalendarDays, Plane, UserX } from "lucide-react";
+import {
+  Users,
+  UserCheck,
+  Clock,
+  CalendarDays,
+  Plane,
+  UserX,
+  TrendingUp,
+  Hourglass,
+} from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -16,6 +25,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { PageHeader, StatusBadge } from "@/components/PageHeader";
 import { StatCard } from "@/components/StatCard";
 import { Card } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
 import {
   fetchAllEmployees,
   fetchAllAttendance,
