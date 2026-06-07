@@ -33,6 +33,13 @@ function AbsenContent() {
   const { user, employee } = useAuth();
   const qc = useQueryClient();
   const { data: office } = useQuery({ queryKey: ["office"], queryFn: fetchOffice });
+  const { data: company } = useQuery({
+    queryKey: ["company-settings"],
+    queryFn: async () => {
+      const { data } = await supabase.from("settings").select("value").eq("key", "company").maybeSingle();
+      return (data?.value as { work_start?: string; late_tolerance?: number }) ?? {};
+    },
+  });
   const { data: attendance } = useQuery({
     queryKey: ["today-attendance", user?.id],
     queryFn: () => fetchTodayAttendance(user!.id),
