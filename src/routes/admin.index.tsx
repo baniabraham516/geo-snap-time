@@ -95,15 +95,22 @@ function AdminDashboard() {
 
   return (
     <>
-      <PageHeader title="Dashboard Admin" description="Ringkasan kehadiran karyawan hari ini." />
+      <PageHeader
+        title="Dashboard Super Admin"
+        description={`${company?.name ?? "Perusahaan"} · Jam kerja ${company?.work_start ?? "08:00"}–${company?.work_end ?? "17:00"}`}
+      />
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 xl:grid-cols-8">
         <StatCard label="Total Karyawan" value={activeEmployees.length} icon={<Users className="h-6 w-6" />} tone="primary" />
         <StatCard label="Hadir Hari Ini" value={present} icon={<UserCheck className="h-6 w-6" />} tone="success" />
+        <StatCard label="Tingkat Hadir" value={`${attendanceRate}%`} icon={<TrendingUp className="h-6 w-6" />} tone="success" />
         <StatCard label="Terlambat" value={late} icon={<Clock className="h-6 w-6" />} tone="warning" />
         <StatCard label="Izin" value={izinCount} icon={<CalendarDays className="h-6 w-6" />} tone="primary" />
         <StatCard label="Cuti" value={cutiCount} icon={<Plane className="h-6 w-6" />} tone="primary" />
         <StatCard label="Alpha" value={alpha} icon={<UserX className="h-6 w-6" />} tone="destructive" />
+        <Link to="/admin/izin">
+          <StatCard label="Izin Pending" value={pendingLeaves} icon={<Hourglass className="h-6 w-6" />} tone="warning" />
+        </Link>
       </div>
 
       <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
