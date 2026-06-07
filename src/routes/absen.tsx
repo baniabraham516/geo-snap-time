@@ -99,8 +99,11 @@ function AbsenContent() {
 
       if (pending.mode === "in") {
         const now = new Date();
-        const { h, m } = lateThreshold();
-        const isLate = now.getHours() > h || (now.getHours() === h && now.getMinutes() > m);
+        const [ws, wm] = (company?.work_start ?? "08:00").split(":").map(Number);
+        const tolerance = company?.late_tolerance ?? 0;
+        const limit = new Date(now);
+        limit.setHours(ws || 8, (wm || 0) + tolerance, 0, 0);
+        const isLate = now.getTime() > limit.getTime();
         const { error } = await supabase.from("attendance").upsert(
           {
             employee_id: employee.id,
