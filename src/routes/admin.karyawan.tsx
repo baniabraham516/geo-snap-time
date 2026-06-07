@@ -70,12 +70,27 @@ function KaryawanContent() {
   );
 
   async function submit() {
-    if (!form.email || !form.password || !form.full_name)
+    const email = form.email.trim();
+    const full_name = form.full_name.trim();
+    if (!email || !form.password || !full_name)
       return toast.error("Nama, email, dan password wajib diisi.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      return toast.error("Format email tidak valid.");
     if (form.password.length < 6) return toast.error("Password minimal 6 karakter.");
     setSaving(true);
     try {
-      await createFn({ data: { ...form, role: "karyawan" } });
+      await createFn({
+        data: {
+          ...form,
+          email,
+          full_name,
+          nik: form.nik.trim() || null,
+          position: form.position.trim() || null,
+          division: form.division.trim() || null,
+          phone: form.phone.trim() || null,
+          role: "karyawan",
+        },
+      });
       toast.success("Karyawan berhasil ditambahkan.");
       setOpen(false);
       setForm(empty);
