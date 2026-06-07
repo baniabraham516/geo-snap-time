@@ -48,6 +48,13 @@ function AdminDashboard() {
   const { data: employees = [] } = useQuery({ queryKey: ["all-employees"], queryFn: fetchAllEmployees });
   const { data: attendance = [] } = useQuery({ queryKey: ["all-attendance"], queryFn: fetchAllAttendance });
   const { data: leaves = [] } = useQuery({ queryKey: ["all-leaves"], queryFn: fetchAllLeaves });
+  const { data: company } = useQuery({
+    queryKey: ["company-settings"],
+    queryFn: async () => {
+      const { data } = await supabase.from("settings").select("value").eq("key", "company").maybeSingle();
+      return (data?.value as { name?: string; work_start?: string; work_end?: string }) ?? {};
+    },
+  });
 
   const today = todayISO();
   const todayRows = attendance.filter((a) => a.date === today);
@@ -61,6 +68,9 @@ function AdminDashboard() {
   const izinCount = todayLeaves.filter((l) => l.type === "izin" || l.type === "sakit").length;
   const cutiCount = todayLeaves.filter((l) => l.type === "cuti").length;
   const alpha = Math.max(0, activeEmployees.length - present - izinCount - cutiCount);
+  const pendingLeaves = leaves.filter((l) => l.status === "menunggu").length;
+  const attendanceRate =
+    activeEmployees.length > 0 ? Math.round((present / activeEmployees.length) * 100) : 0;
 
   const chartData = useMemo(() => {
     const days: { name: string; hadir: number; terlambat: number }[] = [];
