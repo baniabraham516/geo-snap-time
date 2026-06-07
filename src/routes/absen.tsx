@@ -14,7 +14,7 @@ import { fetchOffice, fetchTodayAttendance } from "@/lib/queries";
 import { distanceMeters, getCurrentPosition, reverseGeocode, getDeviceInfo } from "@/lib/geo";
 import { uploadAndSign, dataURLtoBlob } from "@/lib/storage";
 import { supabase } from "@/integrations/supabase/client";
-import { todayISO, formatTime, lateThreshold } from "@/lib/format";
+import { todayISO, formatTime } from "@/lib/format";
 
 export const Route = createFileRoute("/absen")({
   head: () => ({ meta: [{ title: "Absensi — ABSENSI GPS" }] }),
@@ -33,6 +33,13 @@ function AbsenContent() {
   const { user, employee } = useAuth();
   const qc = useQueryClient();
   const { data: office } = useQuery({ queryKey: ["office"], queryFn: fetchOffice });
+  const { data: company } = useQuery({
+    queryKey: ["company-settings"],
+    queryFn: async () => {
+      const { data } = await supabase.from("settings").select("value").eq("key", "company").maybeSingle();
+      return (data?.value as { work_start?: string; late_tolerance?: number }) ?? {};
+    },
+  });
   const { data: attendance } = useQuery({
     queryKey: ["today-attendance", user?.id],
     queryFn: () => fetchTodayAttendance(user!.id),
@@ -92,8 +99,11 @@ function AbsenContent() {
 
       if (pending.mode === "in") {
         const now = new Date();
-        const { h, m } = lateThreshold();
-        const isLate = now.getHours() > h || (now.getHours() === h && now.getMinutes() > m);
+        const [ws, wm] = (company?.work_start ?? "08:00").split(":").map(Number);
+        const tolerance = company?.late_tolerance ?? 0;
+        const limit = new Date(now);
+        limit.setHours(ws || 8, (wm || 0) + tolerance, 0, 0);
+        const isLate = now.getTime() > limit.getTime();
         const { error } = await supabase.from("attendance").upsert(
           {
             employee_id: employee.id,

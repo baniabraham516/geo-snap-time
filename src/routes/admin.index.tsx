@@ -1,7 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { Users, UserCheck, Clock, CalendarDays, Plane, UserX } from "lucide-react";
+import {
+  Users,
+  UserCheck,
+  Clock,
+  CalendarDays,
+  Plane,
+  UserX,
+  TrendingUp,
+  Hourglass,
+} from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -16,6 +25,7 @@ import { AppLayout } from "@/components/AppLayout";
 import { PageHeader, StatusBadge } from "@/components/PageHeader";
 import { StatCard } from "@/components/StatCard";
 import { Card } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
 import {
   fetchAllEmployees,
   fetchAllAttendance,
@@ -38,6 +48,13 @@ function AdminDashboard() {
   const { data: employees = [] } = useQuery({ queryKey: ["all-employees"], queryFn: fetchAllEmployees });
   const { data: attendance = [] } = useQuery({ queryKey: ["all-attendance"], queryFn: fetchAllAttendance });
   const { data: leaves = [] } = useQuery({ queryKey: ["all-leaves"], queryFn: fetchAllLeaves });
+  const { data: company } = useQuery({
+    queryKey: ["company-settings"],
+    queryFn: async () => {
+      const { data } = await supabase.from("settings").select("value").eq("key", "company").maybeSingle();
+      return (data?.value as { name?: string; work_start?: string; work_end?: string }) ?? {};
+    },
+  });
 
   const today = todayISO();
   const todayRows = attendance.filter((a) => a.date === today);
@@ -51,6 +68,9 @@ function AdminDashboard() {
   const izinCount = todayLeaves.filter((l) => l.type === "izin" || l.type === "sakit").length;
   const cutiCount = todayLeaves.filter((l) => l.type === "cuti").length;
   const alpha = Math.max(0, activeEmployees.length - present - izinCount - cutiCount);
+  const pendingLeaves = leaves.filter((l) => l.status === "menunggu").length;
+  const attendanceRate =
+    activeEmployees.length > 0 ? Math.round((present / activeEmployees.length) * 100) : 0;
 
   const chartData = useMemo(() => {
     const days: { name: string; hadir: number; terlambat: number }[] = [];
@@ -75,15 +95,22 @@ function AdminDashboard() {
 
   return (
     <>
-      <PageHeader title="Dashboard Admin" description="Ringkasan kehadiran karyawan hari ini." />
+      <PageHeader
+        title="Dashboard Super Admin"
+        description={`${company?.name ?? "Perusahaan"} · Jam kerja ${company?.work_start ?? "08:00"}–${company?.work_end ?? "17:00"}`}
+      />
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 xl:grid-cols-8">
         <StatCard label="Total Karyawan" value={activeEmployees.length} icon={<Users className="h-6 w-6" />} tone="primary" />
         <StatCard label="Hadir Hari Ini" value={present} icon={<UserCheck className="h-6 w-6" />} tone="success" />
+        <StatCard label="Tingkat Hadir" value={`${attendanceRate}%`} icon={<TrendingUp className="h-6 w-6" />} tone="success" />
         <StatCard label="Terlambat" value={late} icon={<Clock className="h-6 w-6" />} tone="warning" />
         <StatCard label="Izin" value={izinCount} icon={<CalendarDays className="h-6 w-6" />} tone="primary" />
         <StatCard label="Cuti" value={cutiCount} icon={<Plane className="h-6 w-6" />} tone="primary" />
         <StatCard label="Alpha" value={alpha} icon={<UserX className="h-6 w-6" />} tone="destructive" />
+        <Link to="/admin/izin">
+          <StatCard label="Izin Pending" value={pendingLeaves} icon={<Hourglass className="h-6 w-6" />} tone="warning" />
+        </Link>
       </div>
 
       <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">

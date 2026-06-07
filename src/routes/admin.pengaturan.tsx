@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { Loader2, LogOut, Moon, Sun, Building2, ShieldCheck } from "lucide-react";
+import { Loader2, LogOut, Moon, Sun, Building2, ShieldCheck, Clock } from "lucide-react";
 import { toast } from "sonner";
 import { RoleGuard } from "@/components/RoleGuard";
 import { AppLayout } from "@/components/AppLayout";
@@ -27,7 +27,12 @@ export const Route = createFileRoute("/admin/pengaturan")({
 
 async function fetchCompany() {
   const { data } = await supabase.from("settings").select("value").eq("key", "company").maybeSingle();
-  return (data?.value as { name?: string; work_start?: string }) ?? {};
+  return (data?.value as {
+    name?: string;
+    work_start?: string;
+    work_end?: string;
+    late_tolerance?: number;
+  }) ?? {};
 }
 
 function PengaturanContent() {
@@ -38,20 +43,30 @@ function PengaturanContent() {
   const { data: company } = useQuery({ queryKey: ["company-settings"], queryFn: fetchCompany });
   const [name, setName] = useState("");
   const [workStart, setWorkStart] = useState("08:00");
+  const [workEnd, setWorkEnd] = useState("17:00");
+  const [lateTolerance, setLateTolerance] = useState(0);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (company) {
       setName(company.name ?? "");
       setWorkStart(company.work_start ?? "08:00");
+      setWorkEnd(company.work_end ?? "17:00");
+      setLateTolerance(company.late_tolerance ?? 0);
     }
   }, [company]);
 
   async function save() {
     setSaving(true);
-    const { error } = await supabase
-      .from("settings")
-      .upsert({ key: "company", value: { name, work_start: workStart } });
+    const { error } = await supabase.from("settings").upsert({
+      key: "company",
+      value: {
+        name,
+        work_start: workStart,
+        work_end: workEnd,
+        late_tolerance: lateTolerance,
+      },
+    });
     setSaving(false);
     if (error) toast.error(error.message);
     else {
@@ -74,9 +89,33 @@ function PengaturanContent() {
             <Label>Nama Perusahaan</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="PT Maju Bersama" />
           </div>
+          <div className="flex items-center gap-2 border-t border-border pt-4">
+            <Clock className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold">Pengaturan Jam Kerja</h3>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <Label>Jam Masuk</Label>
+              <Input type="time" value={workStart} onChange={(e) => setWorkStart(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label>Jam Pulang</Label>
+              <Input type="time" value={workEnd} onChange={(e) => setWorkEnd(e.target.value)} />
+            </div>
+          </div>
           <div className="space-y-2">
-            <Label>Jam Masuk (batas tepat waktu)</Label>
-            <Input type="time" value={workStart} onChange={(e) => setWorkStart(e.target.value)} />
+            <Label>Toleransi Keterlambatan (menit)</Label>
+            <Input
+              type="number"
+              min={0}
+              max={120}
+              value={lateTolerance}
+              onChange={(e) => setLateTolerance(Number(e.target.value) || 0)}
+            />
+            <p className="text-xs text-muted-foreground">
+              Karyawan dianggap tepat waktu jika absen sebelum {workStart}
+              {lateTolerance > 0 ? ` + ${lateTolerance} menit` : ""}.
+            </p>
           </div>
           <Button onClick={save} disabled={saving}>
             {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Simpan

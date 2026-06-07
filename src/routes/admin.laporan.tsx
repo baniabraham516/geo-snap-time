@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { FileSpreadsheet, FileText, Printer } from "lucide-react";
+import * as XLSX from "xlsx";
+import { FileSpreadsheet, FileText, Printer, Sheet } from "lucide-react";
 import { toast } from "sonner";
 import { RoleGuard } from "@/components/RoleGuard";
 import { AppLayout } from "@/components/AppLayout";
@@ -50,23 +51,42 @@ function LaporanContent() {
     });
   }, [rows, period]);
 
+  function buildRows() {
+    return filtered.map((r) => ({
+      Nama: r.employees?.full_name ?? "",
+      NIK: r.employees?.nik ?? "",
+      Divisi: r.employees?.division ?? "",
+      Tanggal: r.date,
+      "Jam Masuk": formatTime(r.check_in_at),
+      "Jam Pulang": formatTime(r.check_out_at),
+      "Jarak (m)": r.check_in_distance ?? "",
+      Status: r.status,
+    }));
+  }
+
+  function exportExcel() {
+    if (filtered.length === 0) return toast.error("Tidak ada data untuk diekspor.");
+    const ws = XLSX.utils.json_to_sheet(buildRows());
+    ws["!cols"] = [
+      { wch: 24 },
+      { wch: 16 },
+      { wch: 16 },
+      { wch: 12 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 10 },
+      { wch: 12 },
+    ];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Absensi");
+    XLSX.writeFile(wb, `laporan-absensi-${period}-${todayISO()}.xlsx`);
+    toast.success("Laporan Excel (.xlsx) diunduh.");
+  }
+
   function exportCSV() {
     if (filtered.length === 0) return toast.error("Tidak ada data untuk diekspor.");
-    const header = ["Nama", "Divisi", "Tanggal", "Jam Masuk", "Jam Pulang", "Jarak (m)", "Status"];
-    const lines = filtered.map((r) =>
-      [
-        r.employees?.full_name ?? "",
-        r.employees?.division ?? "",
-        r.date,
-        formatTime(r.check_in_at),
-        formatTime(r.check_out_at),
-        r.check_in_distance ?? "",
-        r.status,
-      ]
-        .map((c) => `"${String(c).replace(/"/g, '""')}"`)
-        .join(","),
-    );
-    const csv = [header.join(","), ...lines].join("\n");
+    const ws = XLSX.utils.json_to_sheet(buildRows());
+    const csv = XLSX.utils.sheet_to_csv(ws);
     const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -74,7 +94,7 @@ function LaporanContent() {
     a.download = `laporan-absensi-${period}-${todayISO()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Laporan Excel (CSV) diunduh.");
+    toast.success("Laporan CSV diunduh.");
   }
 
   function exportPDF() {
@@ -93,9 +113,12 @@ function LaporanContent() {
         title="Laporan Absensi"
         description="Ekspor laporan kehadiran karyawan."
         action={
-          <div className="flex gap-2 print:hidden">
-            <Button variant="outline" onClick={exportCSV}>
+          <div className="flex flex-wrap gap-2 print:hidden">
+            <Button variant="outline" onClick={exportExcel}>
               <FileSpreadsheet className="mr-2 h-4 w-4" /> Excel
+            </Button>
+            <Button variant="outline" onClick={exportCSV}>
+              <Sheet className="mr-2 h-4 w-4" /> CSV
             </Button>
             <Button variant="outline" onClick={exportPDF}>
               <FileText className="mr-2 h-4 w-4" /> PDF
