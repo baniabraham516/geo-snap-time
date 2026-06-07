@@ -89,9 +89,33 @@ function PengaturanContent() {
             <Label>Nama Perusahaan</Label>
             <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="PT Maju Bersama" />
           </div>
+          <div className="flex items-center gap-2 border-t border-border pt-4">
+            <Clock className="h-5 w-5 text-primary" />
+            <h3 className="font-semibold">Pengaturan Jam Kerja</h3>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <Label>Jam Masuk</Label>
+              <Input type="time" value={workStart} onChange={(e) => setWorkStart(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label>Jam Pulang</Label>
+              <Input type="time" value={workEnd} onChange={(e) => setWorkEnd(e.target.value)} />
+            </div>
+          </div>
           <div className="space-y-2">
-            <Label>Jam Masuk (batas tepat waktu)</Label>
-            <Input type="time" value={workStart} onChange={(e) => setWorkStart(e.target.value)} />
+            <Label>Toleransi Keterlambatan (menit)</Label>
+            <Input
+              type="number"
+              min={0}
+              max={120}
+              value={lateTolerance}
+              onChange={(e) => setLateTolerance(Number(e.target.value) || 0)}
+            />
+            <p className="text-xs text-muted-foreground">
+              Karyawan dianggap tepat waktu jika absen sebelum {workStart}
+              {lateTolerance > 0 ? ` + ${lateTolerance} menit` : ""}.
+            </p>
           </div>
           <Button onClick={save} disabled={saving}>
             {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Simpan
